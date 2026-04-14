@@ -78,8 +78,7 @@ CASE
 	END AS customer_segment
 from customer_table
 );
-### video demo
-![Demo][images/demo.gif]
+
 ```
 ### 4️⃣ Data Visualization (Power BI)
 - Built interactive dashboards to visualize:
@@ -113,6 +112,9 @@ from customer_table
 - Automate ETL pipeline  
 
 ---
+## 🎥 Demo
+
+![App Demo](images/demo.gif)
 ## Dashboard_output
 
 ![Dashboard](screenshots/dashboard.png)
