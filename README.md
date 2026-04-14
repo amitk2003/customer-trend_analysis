@@ -1,21 +1,119 @@
-# 👨🏻‍💻Customer Behavior Data Analyst Portfolio Project
-This project represents a complete, industry standard, end-to-end data analytics workflow, designed to mirror the real responsibilities of professional analysts in modern business environments. The project encompasses all critical stages of data analysis, from data preparation and modeling to insight generation, visualization, and reporting.
+# 📊 Customer Shopping Behavior Analysis
 
-This project is perfect for:
-- 📊 Data Analyst aspirants who want to build a strong **Portfolio Project** for interviews and LinkedIn
-- 📚 Anyone learning Python, SQL, and Power BI
-- 💼 Professionals preparing for interviews in Data Analytics, Data Science or Product Analytics roles
+## 📌 Overview
+This project analyzes customer shopping behavior to extract meaningful business insights using a complete end-to-end data analytics pipeline. It combines Python for data preprocessing, SQL for business analysis, and Power BI for visualization.
+
+---
+
+## 🚀 Tech Stack
+- Python (Pandas, NumPy, matplotlib)
+- PostgreSQL (pgAdmin)
+- Power BI
+
+---
+
+## 🔄 Workflow
+
+### 1️⃣ Data Cleaning & EDA (Python)
+- Handled missing values and inconsistent formats  
+- Converted column names to SQL-friendly format (snake_case)  
+- Performed exploratory data analysis (EDA) to understand patterns  
+
+---
+
+### 2️⃣ Feature Engineering
+- Created new features such as:
+  - purchase_amount
+  - Customer segmentation indicators  
+- Prepared structured dataset for SQL analysis  
+
+---
+
+### 3️⃣ SQL Analysis (PostgreSQL)
+Solved real-world business problems using SQL:
+
+#### 🔹 Revenue by Gender (with % contribution)
+SELECT gender,
+       SUM(purchase_amount) AS revenue,
+       ROUND(
+           SUM(purchase_amount) * 100.0 /
+           SUM(SUM(purchase_amount)) OVER (),
+           2
+       ) AS revenue_percentage
+FROM customer_table
+GROUP BY gender;
+
+#### 🔹 High-Value Customers Using Discount
+SELECT customer_id, purchase_amount
+FROM customer_table
+WHERE LOWER(discount_applied) = 'yes'
+  AND purchase_amount >= (
+      SELECT AVG(purchase_amount)
+      FROM customer_table
+  );
+  ### what are the top 3 most purchased products within each category
+with item_counts as(
+select category, item_purchased, COUNT(customer_id) as total_orders,
+ROW_NUMBER() over(partition by category order by COUNT(customer_id) DESC) as item_rank
+from customer_table
+group by category,item_purchased
+);
+
+select item_rank, item_purchased, total_orders
+from item_counts
+where item_rank<=3
 
 
-## 📌 Project Overview
-The goal of this project is to simulate a corporate-grade end-to-end data analytics workflow, demonstrating the ability to translate raw data into strategic business intelligence by:
+### segment customers into new,returning and loyl based on their total number of previous purchases and show count of each segment
+with customer_type as (
+select customer_id, previous_purchases,
+CASE 
+    WHEN previous_purchases =1 THEN 'New'
+	WHEN previous_purchases BETWEEN 2 AND 10 THEN 'Returning'
+	ELSE 'Loyal'
+	END AS customer_segment
+from customer_table
+);
+---
 
-✅ Data Preparation,Modeling & Exploratory Data Analysis (Python): Clean and transform the raw dataset for analysis.
+### 4️⃣ Data Visualization (Power BI)
+- Built interactive dashboards to visualize:
+  - Revenue trends  
+  - Customer segmentation  
+  - Discount impact analysis  
 
-✅ Data Analysis (SQL): Simulate business transactions, and run queries to extract insights on customer segments, loyalty, and purchase drivers.
+---
 
-✅ Visualization & Insights (Power BI): Build an interactive dashboard that highlights key patterns and trends, enabling stakeholders to make data-driven decisions.
+## 📊 Key Insights
+- Revenue contribution varies significantly across genders  
+- Discount usage does not always correlate with higher spending  
+- A small group of customers contributes a large portion of revenue  
+- Customer purchasing behavior varies across segments  
 
-✅ Report and Presentation: Write a clear project report summarizing your key findings and business recommendations. Prepare a presentation that visually communicates insights and actionable recommendations to stakeholders.
+---
 
 
+
+## 💡 Business Value
+- Helps understand customer spending behavior  
+- Identifies high-value customers  
+- Evaluates effectiveness of discounts  
+- Supports data-driven decision making  
+
+---
+
+## 🔥 Future Improvements
+- Add predictive modeling (ML) for customer segmentation  
+- Deploy dashboard using Streamlit  
+- Automate ETL pipeline  
+
+---
+
+## 👨‍💻 Author
+Amit Kumar  
+GitHub: https://github.com/amitk2003  
+
+---
+
+## ⭐ If you like this project
+Give it a ⭐ on GitHub!
