@@ -113,7 +113,9 @@ from customer_table
 - Automate ETL pipeline  
 
 ---
+## Dashboard_output
 
+![Dashboard](screenshots/dashboard.png)
 ## 👨‍💻 Author
 Amit Kumar  
 GitHub: https://github.com/amitk2003  
