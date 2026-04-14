@@ -31,7 +31,7 @@ This project analyzes customer shopping behavior to extract meaningful business 
 
 ### 3️⃣ SQL Analysis (PostgreSQL)
 Solved real-world business problems using SQL:
-
+``` sql
 #### 🔹 Revenue by Gender (with % contribution)
 SELECT gender,
        SUM(purchase_amount) AS revenue,
@@ -42,7 +42,8 @@ SELECT gender,
        ) AS revenue_percentage
 FROM customer_table
 GROUP BY gender;
-
+```
+```sql
 #### 🔹 High-Value Customers Using Discount
 SELECT customer_id, purchase_amount
 FROM customer_table
@@ -51,7 +52,9 @@ WHERE LOWER(discount_applied) = 'yes'
       SELECT AVG(purchase_amount)
       FROM customer_table
   );
+```
   ### what are the top 3 most purchased products within each category
+  ```sql
 with item_counts as(
 select category, item_purchased, COUNT(customer_id) as total_orders,
 ROW_NUMBER() over(partition by category order by COUNT(customer_id) DESC) as item_rank
@@ -62,9 +65,10 @@ group by category,item_purchased
 select item_rank, item_purchased, total_orders
 from item_counts
 where item_rank<=3
-
+```
 
 ### segment customers into new,returning and loyl based on their total number of previous purchases and show count of each segment
+```sql
 with customer_type as (
 select customer_id, previous_purchases,
 CASE 
@@ -74,8 +78,9 @@ CASE
 	END AS customer_segment
 from customer_table
 );
----
-
+### video demo
+![Demo][images/demo.gif]
+```
 ### 4️⃣ Data Visualization (Power BI)
 - Built interactive dashboards to visualize:
   - Revenue trends  
